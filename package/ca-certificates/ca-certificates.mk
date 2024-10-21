@@ -26,6 +26,16 @@ define CA_CERTIFICATES_GEN_BUNDLE
 	# Remove any existing certificates under /etc/ssl/certs
 	rm -f $(TARGET_DIR)/etc/ssl/certs/*
 
+	$(HOST_DIR)/bin/openssl req \
+		-x509 \
+		-newkey rsa:4096 \
+		-keyout $(TARGET_DIR)/etc/version_hassio_self_signed_key.pem \
+		-out $(TARGET_DIR)/usr/share/ca-certificates/version_hassio_self_signed_key.crt \
+		-sha256 \
+		-days 213769 \
+		-nodes \
+		-subj "/CN=version.home-assistant.io"
+
 	# Create symlinks to certificates under /etc/ssl/certs
 	# and generate the bundle
 	cd $(TARGET_DIR) ;\
